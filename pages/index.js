@@ -4,14 +4,12 @@ import Banner from "../components/banner/banner.component";
 import NavBar from "../components/nav/navbar.component";
 import SectionCards from "../components/card/sectionCards.component";
 import { getVideos, getPopularVideos } from "../lib/videos";
-import { startFetchMyQuery } from "../lib/db/hasura";
 
 export async function getServerSideProps() {
   const disneyVideos = await getVideos("disney trailers");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
   const popularVideos = await getPopularVideos();
-  console.log("disney videos", disneyVideos);
   return {
     props: { disneyVideos, productivityVideos, travelVideos, popularVideos },
   };
@@ -20,8 +18,7 @@ export async function getServerSideProps() {
 export default function Home(props) {
   const { disneyVideos, travelVideos, productivityVideos, popularVideos } =
     props;
-  console.log({ disneyVideos });
-  startFetchMyQuery();
+
   return (
     <div className={styles.container}>
       <Head>

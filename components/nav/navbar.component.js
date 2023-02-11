@@ -14,7 +14,8 @@ const NavBar = () => {
     const getUser = async () => {
       try {
         const { email } = await magic.user.getMetadata();
-        ///console.log({ email, publicAddress });
+        const didToken = await magic.user.getIdToken();
+        console.log("did Token :", didToken);
         if (email) {
           setUsername(email);
         }
@@ -45,7 +46,7 @@ const NavBar = () => {
 
     try {
       await magic.user.logout();
-      console.log("LoggedIn :", await magic.user.isLoggedIn());
+      ///console.log("LoggedIn :", await magic.user.isLoggedIn());
       setUsername("");
       setShowDropDown(false);
       router.push("/login");

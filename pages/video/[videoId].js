@@ -45,7 +45,7 @@ const Video = ({ video }) => {
   } = video;
 
   const handleCloseModal = () => {
-    console.log("deneme");
+    //console.log("deneme");
     router.push("/");
   };
 
