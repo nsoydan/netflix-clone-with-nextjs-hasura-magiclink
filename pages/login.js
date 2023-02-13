@@ -42,31 +42,31 @@ const Login = () => {
 
     if (email && validateReturn) {
       setIsLoading(true);
-      if (email === "nsoydan@gmail.com") {
-        try {
-          const didToken = await magic.auth.loginWithMagicLink({
-            email,
+
+      try {
+        const didToken = await magic.auth.loginWithMagicLink({
+          email,
+        });
+        console.log({ didToken });
+        if (didToken) {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${didToken}`,
+              "Content-Type": "application/json",
+            },
           });
-          console.log({ didToken });
-          if (didToken) {
-            const response = await fetch("/api/login", {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${didToken}`,
-                "Content-Type": "application/json",
-              },
-            });
-            const loggedInResponse = await response.json();
-            if (loggedInResponse.done) {
-              router.push("/");
-            }
+          const loggedInResponse = await response.json();
+          if (loggedInResponse.done) {
+            router.push("/");
+          } else {
+            setIsLoading(false);
+            setUserMsg("Something wrong with logging in");
+            router.push("/login");
           }
-        } catch (error) {
-          console.log({ error });
         }
-      } else {
-        setUserMsg("Something With wrong logging in");
-        setIsLoading(false);
+      } catch (error) {
+        console.log({ error });
       }
     } else {
       setUserMsg("Enter a valid email address");
