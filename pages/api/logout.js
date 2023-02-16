@@ -6,8 +6,8 @@ export default async function logout(req, res) {
     if (!req.cookies.token) {
       return res.status(401).json({ message: "User is not logged in" });
     }
-    const token = req.cookies.token;
-    const userId = await verifyToekn(token);
+    // const token = req.cookies.token;
+    // const userId = await verifyToken(token);
 
     removeTokenCookie(res);
     try {
