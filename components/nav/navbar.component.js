@@ -18,9 +18,7 @@ const NavBar = () => {
         if (email) {
           setUsername(email);
         }
-      } catch (error) {
-        console.log("Error retrieving email", error);
-      }
+      } catch (error) {}
     };
     getUser();
   }, []);
@@ -49,11 +47,9 @@ const NavBar = () => {
       setShowDropDown(false);
 
       const response = await fetch("/api/logout");
-      console.log({ response });
 
       router.push("/login");
     } catch (error) {
-      console.log("Error with signout", error);
       router.push("/login");
     }
   };

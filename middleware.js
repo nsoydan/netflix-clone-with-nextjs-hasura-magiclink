@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/utils";
 
 export async function middleware(req, ev) {
-  console.log("Middleware works");
-
   const token = req ? req.cookies.get("token")?.value : null;
-  console.log("value:", token);
+
   const userId = await verifyToken(token);
   const { pathname } = req.nextUrl;
 
