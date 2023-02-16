@@ -1885,6 +1885,11 @@
   "resolved" "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   "version" "2.0.0"
 
+"jose@^4.11.4":
+  "integrity" "sha512-94FdcR8felat4vaTJyL/WVdtlWLlsnLMZP8v+A0Vru18K3bQ22vn7TtpVh3JlgBFNIlYOUlGqwp/MjRPOnIyCQ=="
+  "resolved" "https://registry.npmjs.org/jose/-/jose-4.11.4.tgz"
+  "version" "4.11.4"
+
 "js-sdsl@^4.1.4":
   "integrity" "sha512-mifzlm2+5nZ+lEcLJMoBK0/IH/bDg8XnJfd/Wq6IP+xoCjLZsTOnV2QpxlVbX9bMnkl5PdEjNtBJ9Cj1NjifhQ=="
   "resolved" "https://registry.npmjs.org/js-sdsl/-/js-sdsl-4.3.0.tgz"

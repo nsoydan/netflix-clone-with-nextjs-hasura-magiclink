@@ -15,7 +15,6 @@ const NavBar = () => {
       try {
         const { email } = await magic.user.getMetadata();
         const didToken = await magic.user.getIdToken();
-        console.log("did Token :", didToken);
         if (email) {
           setUsername(email);
         }
@@ -46,9 +45,12 @@ const NavBar = () => {
 
     try {
       await magic.user.logout();
-      ///console.log("LoggedIn :", await magic.user.isLoggedIn());
       setUsername("");
       setShowDropDown(false);
+
+      const response = await fetch("/api/logout");
+      console.log({ response });
+
       router.push("/login");
     } catch (error) {
       console.log("Error with signout", error);

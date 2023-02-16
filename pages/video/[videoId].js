@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import Modal from "react-modal";
 import styles from "../../styles/video.module.css";
 import NavBar from "../../components/nav/navbar.component";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "classnames";
 
 import { getYoutubeVideoById } from "../../lib/videos";
@@ -47,19 +47,46 @@ const Video = ({ video }) => {
     statistics: { viewCount },
   } = video;
 
+  useEffect(() => {
+    async function getVideo() {
+      const response = await fetch(`/api/stats?videoId=${videoId}`, {
+        method: "GET",
+      });
+      const data = await response.json();
+    }
+    getVideo();
+  }, [videoId]);
+
   const handleCloseModal = () => {
-    //console.log("deneme");
     router.push("/");
   };
-  const handleToggleLike = () => {
-    console.log("like");
+
+  const runRatingService = async (favourited) => {
+    return await fetch("/api/stats", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        videoId,
+        favourited,
+        watched: true,
+      }),
+    });
+  };
+
+  const handleToggleLike = async () => {
     setToggleLike(true);
     setToggleDisLike(false);
+    const favourited = 1;
+    const response = await runRatingService(favourited);
   };
-  const handleToggleDislike = () => {
-    console.log("dislike");
+
+  const handleToggleDislike = async () => {
     setToggleDisLike(true);
     setToggleLike(false);
+    const favourited = 0;
+    const response = await runRatingService(favourited);
   };
 
   return (
@@ -79,7 +106,7 @@ const Video = ({ video }) => {
           width="100%"
           height="390"
           src={`http://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
-          frameborder="0"
+          frameBorder="0"
         />
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>

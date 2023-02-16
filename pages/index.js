@@ -3,23 +3,49 @@ import styles from "../styles/Home.module.css";
 import Banner from "../components/banner/banner.component";
 import NavBar from "../components/nav/navbar.component";
 import SectionCards from "../components/card/sectionCards.component";
-import { getVideos, getPopularVideos } from "../lib/videos";
+import {
+  getVideos,
+  getPopularVideos,
+  getWatchItAgainVideos,
+} from "../lib/videos";
+import { redirectUser } from "../utils/redirectUser";
+export async function getServerSideProps(context) {
+  const { userId, token } = await redirectUser(context);
+  // if (!userId) {
+  //   return {
+  //     props: {},
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-export async function getServerSideProps() {
+  const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
   const disneyVideos = await getVideos("disney trailers");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
   const popularVideos = await getPopularVideos();
 
   return {
-    props: { disneyVideos, productivityVideos, travelVideos, popularVideos },
+    props: {
+      disneyVideos,
+      productivityVideos,
+      travelVideos,
+      popularVideos,
+      watchItAgainVideos,
+    },
   };
 }
 
 export default function Home(props) {
-  const { disneyVideos, travelVideos, productivityVideos, popularVideos } =
-    props;
-
+  const {
+    disneyVideos,
+    travelVideos,
+    productivityVideos,
+    popularVideos,
+    watchItAgainVideos,
+  } = props;
   return (
     <div className={styles.container}>
       <Head>
@@ -38,9 +64,10 @@ export default function Home(props) {
         />
         <div className={styles.sectionWrapper}>
           <SectionCards title="Disney " videos={disneyVideos} size="large" />
+
           <SectionCards
-            title="Whatch it again"
-            videos={disneyVideos}
+            title="Watch it again"
+            videos={watchItAgainVideos}
             size="small"
           />
           <SectionCards title="Travel" videos={travelVideos} size="small" />
